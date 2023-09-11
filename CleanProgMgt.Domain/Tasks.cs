@@ -15,7 +15,7 @@ namespace CleanProgMgt.Domain
         public string Title { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public DateTime Due_date { get; set; }
-        //public Priority Priority { get; set; }
-        //public Status status { get; set; }
+        public Priority Priority { get; set; }
+        public Status status { get; set; }
     }
 }

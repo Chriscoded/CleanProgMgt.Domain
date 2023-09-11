@@ -10,5 +10,9 @@ namespace CleanProgMgt.Application
     public interface ITasksService
     {
         List<Tasks> GetAllTasks();
+
+        Tasks CreateTask(Tasks task);
+
+        Tasks GetTaskById(long? id);
     }
 }

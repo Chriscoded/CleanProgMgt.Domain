@@ -10,5 +10,8 @@ namespace CleanProgMgt.Application
     public interface ITasksRepository
     {
         List<Tasks> GetAllTasks();
+        Tasks CreateTask(Tasks task);
+
+        Tasks GetTaskById(long? id);
     }
 }

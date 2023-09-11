@@ -26,16 +26,22 @@ namespace CleanProgMgt.API.Controllers
         }
 
         // GET api/<TasksController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("{id}", Name = "GetTaskById")]
+        public ActionResult<Tasks> Get(int id)
         {
-            return "value";
+            var tasksFromService = tasksService.GetTaskById(id);
+
+            return Ok(tasksFromService);
         }
 
         // POST api/<TasksController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public ActionResult<Tasks> Post(Tasks task)
         {
+            var Task = tasksService.CreateTask(task);
+            //return Ok(Task);
+            //return CreatedAtRoute("Get", new { Id = Task.Id }, Task);
+            return CreatedAtRoute(nameof(Get), new { Id = Task.Id }, Task);
         }
 
         // PUT api/<TasksController>/5

@@ -18,11 +18,23 @@ namespace CleanProgMgt.Application
             this.tasksRepository = tasksRepository;
         }
 
+        public Tasks CreateTask(Tasks task)
+        {
+            var Task = tasksRepository.CreateTask(task);
+            return Task;
+        }
+
         public List<Tasks> GetAllTasks()
         {
             var tasks = tasksRepository.GetAllTasks();
 
             return tasks;
+        }
+
+        public Tasks GetTaskById(long? id)
+        {
+            var task = tasksRepository.GetTaskById(id);
+            return task;
         }
     }
 }
