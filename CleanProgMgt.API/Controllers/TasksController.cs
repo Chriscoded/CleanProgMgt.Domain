@@ -27,7 +27,7 @@ namespace CleanProgMgt.API.Controllers
 
         // GET api/<TasksController>/5
         [HttpGet("{id}", Name = "GetTaskById")]
-        public ActionResult<Tasks> Get(int id)
+        public ActionResult<Tasks> GetTaskById(int id)
         {
             var tasksFromService = tasksService.GetTaskById(id);
 
@@ -41,7 +41,7 @@ namespace CleanProgMgt.API.Controllers
             var Task = tasksService.CreateTask(task);
             //return Ok(Task);
             //return CreatedAtRoute("Get", new { Id = Task.Id }, Task);
-            return CreatedAtRoute(nameof(Get), new { Id = Task.Id }, Task);
+            return CreatedAtRoute(nameof(GetTaskById), new { Id = Task.Id }, Task);
         }
 
         // PUT api/<TasksController>/5

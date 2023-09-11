@@ -10,12 +10,23 @@ namespace CleanProgMgt.Domain
 {
     public class Tasks
     {
+        public Tasks()
+        {
+            Due_date = DateTime.Now.AddHours(48);
+        }
+
         public int Id { get; set; }
 
         public string Title { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
+        public DateTime Created_at { get; set; } = DateTime.Now;
         public DateTime Due_date { get; set; }
         public Priority Priority { get; set; }
         public Status status { get; set; }
+        public int ? ProjectId { get; set; }
+        public Project? Project { get; set; }
+        public string ? UserId { get; set; }
+        public ApplicationUser? User { get; set; }
+        
     }
 }

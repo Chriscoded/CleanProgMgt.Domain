@@ -10,11 +10,30 @@ namespace CleanProjMgt.Infrastructure
 {
     public class TasksDbContext : DbContext
     {
-        public TasksDbContext(DbContextOptions<TasksDbContext> options) :base(options)
+        public TasksDbContext(DbContextOptions<TasksDbContext> options)
+           : base(options)
         {
-            
+
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            // One to Many (Tasks and Projects)
+            modelBuilder.Entity<Tasks>()
+                 .HasOne<Project>(s => s.Project)
+                 .WithMany(r => r.Tasks)
+                 .HasForeignKey(s => s.ProjectId);
+
+            // One to Many (Tasks and User)
+            modelBuilder.Entity<Tasks>()
+                 .HasOne<ApplicationUser>(s => s.User)
+                 .WithMany(r => r.Tasks)
+                 .HasForeignKey(s => s.UserId);
+
+                    }
         public DbSet<Tasks> Tasks { get; set; }
+        public DbSet<Project> Project { get; set; }
+        public DbSet<ApplicationUser> Users { get; set; }
+
     }
 }
