@@ -1,4 +1,7 @@
-﻿using CleanProgMgt.Application;
+﻿using AutoMapper;
+using CleanProgMgt.Application.Dtos;
+using CleanProgMgt.Application.Services.Task;
+using CleanProgMgt.Application.Services.Users;
 using CleanProgMgt.Domain;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,49 +14,68 @@ namespace CleanProgMgt.API.Controllers
     public class TasksController : ControllerBase
     {
         private readonly ITasksService tasksService;
+        private readonly IMapper mapper;
 
-        public TasksController(ITasksService tasksService)
+        public TasksController(ITasksService tasksService, IMapper mapper)
         {
             this.tasksService = tasksService;
+            this.mapper = mapper;
         }
 
         // GET: api/<TasksController>
         [HttpGet]
-        public ActionResult<List<Tasks>> Get()
+        public ActionResult<List<TaskReadDto>> Get()
         {
             var tasksFromService = tasksService.GetAllTasks();
-            return Ok(tasksFromService);
+            return Ok(mapper.Map<IEnumerable<TaskReadDto>>(tasksFromService));
         }
 
         // GET api/<TasksController>/5
         [HttpGet("{id}", Name = "GetTaskById")]
-        public ActionResult<Tasks> GetTaskById(int id)
+        public ActionResult<TaskReadDto> GetTaskById(int id)
         {
             var tasksFromService = tasksService.GetTaskById(id);
 
-            return Ok(tasksFromService);
+            return Ok(mapper.Map<TaskReadDto>(tasksFromService));
         }
 
         // POST api/<TasksController>
         [HttpPost]
-        public ActionResult<Tasks> Post(Tasks task)
+        public ActionResult<TaskReadDto> Post(TaskCreateDto task)
         {
-            var Task = tasksService.CreateTask(task);
-            //return Ok(Task);
-            //return CreatedAtRoute("Get", new { Id = Task.Id }, Task);
-            return CreatedAtRoute(nameof(GetTaskById), new { Id = Task.Id }, Task);
+            
+            var taskModel = mapper.Map<Tasks>(task);
+            var serviceTask = tasksService.CreateTask(taskModel);
+
+            var taskDto = mapper.Map<TaskReadDto>(serviceTask);
+
+            return CreatedAtRoute(nameof(GetTaskById), new { Id = taskDto.Id }, taskDto);
         }
 
         // PUT api/<TasksController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public ActionResult<Task> Put(int id, TaskCreateDto taskChanges)
         {
+            //var task = tasksService.GetTaskById(id);
+            //if (task != null)
+            //{
+            //    tasksService.Update(taskChanges);
+            //}
+
+            return NoContent();
         }
 
         // DELETE api/<TasksController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public ActionResult Delete(int id)
         {
+            //Tasks user = tasksService.GetTaskById(id);
+            //if (user != null)
+            //{
+            //    tasksService.Delete(id);
+            //}
+
+            return NoContent();
         }
     }
 }

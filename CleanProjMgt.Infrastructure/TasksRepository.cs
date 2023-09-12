@@ -1,4 +1,4 @@
-﻿using CleanProgMgt.Application;
+﻿using CleanProgMgt.Application.Services.Task;
 using CleanProgMgt.Domain;
 using CleanProgMgt.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
@@ -17,38 +17,79 @@ namespace CleanProjMgt.Infrastructure
 
         //DateTime fourDaysFromToday = today.AddDays(4);
 
-        private readonly TasksDbContext taskDbContext;
-        public TasksRepository(TasksDbContext taskDbContext)
+        private readonly TasksDbContext dbContext;
+        public TasksRepository(TasksDbContext dbContext)
         {
-            this.taskDbContext = taskDbContext;
+            this.dbContext = dbContext;
         }
 
-        public static List<Tasks> tasks = new List<Tasks>()
-        {
-            new Tasks {Id = 1, Title = "Authentication", Description = "The authentication should be working before the end of the day", Due_date = DateTime.Today, Priority = Priority.Low , status= Status.Failed },
-             new Tasks {Id = 1, Title = "OTP", Description = "The OTP should be working before the end of the day", Due_date = DateTime.Today, Priority = Priority.High , status= Status.Completed },
-             new Tasks {Id = 1, Title = "OTP", Description = "The OTP should be working before the end of the day", Due_date = DateTime.Today, Priority = Priority.Medium , status= Status.In_progress }
-        };
+        //public static List<Tasks> tasks = new List<Tasks>()
+        //{
+        //    new Tasks {Id = 1, Title = "Authentication", Description = "The authentication should be working before the end of the day", Due_date = DateTime.Today, Priority = Priority.Low , status= Status.Failed },
+        //     new Tasks {Id = 1, Title = "OTP", Description = "The OTP should be working before the end of the day", Due_date = DateTime.Today, Priority = Priority.High , status= Status.Completed },
+        //     new Tasks {Id = 1, Title = "OTP", Description = "The OTP should be working before the end of the day", Due_date = DateTime.Today, Priority = Priority.Medium , status= Status.In_progress }
+        //};
 
-        public List<Tasks> GetAllTasks()
+        public IEnumerable<Tasks> GetAllTasks()
         {
-            return taskDbContext.Tasks.ToList();
+            return dbContext.Tasks;
             
         }
 
         public Tasks CreateTask(Tasks task)
         {
-            taskDbContext.Tasks.Add(task);
-            taskDbContext.SaveChanges();    
+            dbContext.Tasks.Add(task);
+            dbContext.SaveChanges();    
             return task;
         }
 
         public Tasks GetTaskById(long? id)
         {
-            var data = taskDbContext.Tasks.FirstOrDefault(x => x.Id == id);
+            var data = dbContext.Tasks.FirstOrDefault(x => x.Id == id);
             if (data == null)
                 return null;
             else return data;
         }
+
+        public Tasks Update(Tasks taskChanges)
+        {
+            var task = dbContext.Tasks.Attach(taskChanges);
+            //task.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            dbContext.SaveChanges();
+            return taskChanges;
+        }
+
+        public Tasks Delete(int id)
+        {    
+            var task = dbContext.Tasks.Find(id);
+            if (task != null)
+            {
+                dbContext.Tasks.Remove(task);
+                dbContext.SaveChanges();
+            }
+            return task;
+        }
+
+        public List<Tasks> GetTasksDueWithin48Hours(int userId)
+        {
+            // Implement the logic to retrieve tasks due within 48 hours for the specified user
+            // You can interact with your data storage or repository here
+            var now = DateTime.Now;
+            var dueWithin48Hours = new List<Tasks>();
+
+            List<Tasks> allTasks = dbContext.Tasks.ToList();
+
+            // Example logic to retrieve tasks due within 48 hours
+            foreach (var task in allTasks) // Replace with actual task retrieval logic
+            {
+                if (task.Id == userId && task.Due_date > now && task.Due_date <= now.AddHours(48))
+                {
+                    dueWithin48Hours.Add(task);
+                }
+            }
+
+            return dueWithin48Hours;
+        }
+
     }
 }

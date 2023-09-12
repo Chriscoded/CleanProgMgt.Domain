@@ -5,14 +5,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CleanProgMgt.Application
+namespace CleanProgMgt.Application.Services.Task
 {
     public interface ITasksService
     {
-        List<Tasks> GetAllTasks();
+        IEnumerable<Tasks> GetAllTasks();
 
         Tasks CreateTask(Tasks task);
 
         Tasks GetTaskById(long? id);
+        Tasks Update(Tasks taskChanges);
+        Tasks Delete(int id);
+        //List<Tasks> GetTasksDueWithin48Hours(int userId);
     }
 }

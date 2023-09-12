@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CleanProgMgt.Application
+namespace CleanProgMgt.Application.Services.Task
 {
     public class TasksService : ITasksService
     {
@@ -24,7 +24,8 @@ namespace CleanProgMgt.Application
             return Task;
         }
 
-        public List<Tasks> GetAllTasks()
+
+        public IEnumerable<Tasks> GetAllTasks()
         {
             var tasks = tasksRepository.GetAllTasks();
 
@@ -36,5 +37,21 @@ namespace CleanProgMgt.Application
             var task = tasksRepository.GetTaskById(id);
             return task;
         }
+
+        public Tasks Update(Tasks taskChanges)
+        {
+            var Task = tasksRepository.Update(taskChanges);
+            return Task;
+        }
+        public Tasks Delete(int id)
+        {
+            var Task = tasksRepository.Delete(id);
+            return Task;
+        }
+        public List<Tasks> GetTasksDueWithin48Hours(int userId)
+        {
+            return tasksRepository.GetTasksDueWithin48Hours(userId);
+        }
+
     }
 }

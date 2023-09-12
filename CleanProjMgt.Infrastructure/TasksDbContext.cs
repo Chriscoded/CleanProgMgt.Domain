@@ -26,14 +26,21 @@ namespace CleanProjMgt.Infrastructure
 
             // One to Many (Tasks and User)
             modelBuilder.Entity<Tasks>()
-                 .HasOne<ApplicationUser>(s => s.User)
+                 .HasOne<User>(s => s.User)
                  .WithMany(r => r.Tasks)
                  .HasForeignKey(s => s.UserId);
 
-                    }
+            modelBuilder.Entity<Notification>()
+                .HasOne<User>(s => s.User)
+                .WithMany(r => r.Notifications)
+                .HasForeignKey(s => s.UserId);
+        }
+
+
         public DbSet<Tasks> Tasks { get; set; }
         public DbSet<Project> Project { get; set; }
-        public DbSet<ApplicationUser> Users { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Notification> Notification { get; set; }
 
     }
 }
