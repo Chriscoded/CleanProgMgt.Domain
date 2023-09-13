@@ -58,12 +58,9 @@ namespace CleanProgMgt.API.Controllers
         [HttpPut("{id}")]
         public ActionResult<TaskReadDto> Put(int id, UserCreateDto userChanges)
         {
-            var user = userService.GetUserById(id);
 
-            if (user != null)
             {
-                var userModel = mapper.Map<User>(userChanges);
-                var serviceUser = userService.Update(userModel);
+                var serviceUser = userService.Update(id,userChanges);
                 var userDto = mapper.Map<UserReadDto>(serviceUser);
 
             }
@@ -75,11 +72,11 @@ namespace CleanProgMgt.API.Controllers
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {
-            //User user = userService.GetUserById(id);
-            //if (user != null)
-            //{
-            //    userService.Delete(id);
-            //}
+            User user = userService.GetUserById(id);
+            if (user != null)
+            {
+                userService.Delete(id);
+            }
 
             return NoContent();
         }

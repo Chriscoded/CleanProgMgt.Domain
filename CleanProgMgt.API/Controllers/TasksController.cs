@@ -69,11 +69,11 @@ namespace CleanProgMgt.API.Controllers
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {
-            //Tasks user = tasksService.GetTaskById(id);
-            //if (user != null)
-            //{
-            //    tasksService.Delete(id);
-            //}
+            Tasks task = tasksService.GetTaskById(id);
+            if (task != null)
+            {
+                tasksService.Delete(id);
+            }
 
             return NoContent();
         }

@@ -8,7 +8,7 @@ namespace CleanProgMgt.Domain.Enums
 {
     public enum NotificationStatus
     {
-        Read,
-        Unread
+        Read = 1,
+        Unread = 2,
     }
 }

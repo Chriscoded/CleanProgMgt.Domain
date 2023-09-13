@@ -1,5 +1,6 @@
 ﻿using CleanProgMgt.Application.Services.Notifications;
 using CleanProgMgt.Domain;
+using CleanProgMgt.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -18,9 +19,35 @@ namespace CleanProjMgt.Infrastructure
             this.dbContext = dbContext;
         }
 
-        public void AddNotification(string userId, string type, string message)
+        public Notification AddNotification(Notification notification)
         {
-            throw new NotImplementedException();
+            dbContext.Notification.Add(notification);
+            dbContext.SaveChanges();
+            return notification;
+        }
+
+        public Notification Delete(int id)
+        {
+            var notification = dbContext.Notification.Find(id);
+            if (notification != null)
+            {
+                dbContext.Notification.Remove(notification);
+                dbContext.SaveChanges();
+            }
+            return notification;
+        }
+
+        public IEnumerable<Notification> GetAllNotifications()
+        {
+            return dbContext.Notification;
+        }
+
+        public Notification GetNotificationById(long? id)
+        {
+            var data = dbContext.Notification.FirstOrDefault(x => x.Id == id);
+            if (data == null)
+                return null;
+            else return data;
         }
 
         public List<Notification> GetNotificationsForUser(int userId)
@@ -32,25 +59,26 @@ namespace CleanProjMgt.Infrastructure
             else return data;
         }
 
-        public void MarkNotificationAsRead(int notificationId)
+        
+        public bool MarkNotification(int notificationId, bool isRead)
+        {
+            var notification = dbContext.Notification.FirstOrDefault(n => n.Id == notificationId);
+            if (notification != null)
+            {
+                if (isRead)
+                notification.Status = NotificationStatus.Read;
+                else
+                    notification.Status = NotificationStatus.Unread;
+                return true;
+            }
+            return false;
+        }
+
+        public Notification Update(Notification notificationChanges)
         {
             throw new NotImplementedException();
         }
 
-        //public void AddNotification(string userId, string type, string message)
-        //{
-        //    // Implement logic to add a new notification for a user
-        //}
-
-        //public void MarkNotificationAsRead(int notificationId)
-        //{
-        //    // Implement logic to mark a notification as read
-        //}
-
-        public void MarkNotificationAsUnread(int notificationId)
-        {
-            // Implement logic to mark a notification as unread
-        }
 
     }
 }

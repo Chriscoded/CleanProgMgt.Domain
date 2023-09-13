@@ -4,6 +4,7 @@ using CleanProgMgt.Application.Services.Task;
 using CleanProgMgt.Application.Services.Users;
 using CleanProgMgt.Domain;
 using CleanProjMgt.Infrastructure;
+using CleanProjMgt.Infrastructure.Services;
 //using CleanProjMgt.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -41,6 +42,8 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 builder.Services.AddScoped<INotificationsService, NotificationsService>();
 builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
+
+//builder.Services.AddHostedService<NotificationBackgroundService>();
 
 
 var app = builder.Build();

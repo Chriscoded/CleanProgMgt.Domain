@@ -1,4 +1,5 @@
-﻿using CleanProgMgt.Domain;
+﻿using CleanProgMgt.Application.Dtos;
+using CleanProgMgt.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,9 +36,9 @@ namespace CleanProgMgt.Application.Services.Users
             return userRepository.GetUserById(id);
         }
 
-        public User Update(User userChanges)
+        public User Update(int id, UserCreateDto userChanges)
         {
-            return userRepository.Update(userChanges);
+            return userRepository.Update(id,userChanges);
         }
     }
 }

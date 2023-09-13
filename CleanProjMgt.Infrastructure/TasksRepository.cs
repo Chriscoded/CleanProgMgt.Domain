@@ -70,7 +70,7 @@ namespace CleanProjMgt.Infrastructure
             return task;
         }
 
-        public List<Tasks> GetTasksDueWithin48Hours(int userId)
+        public List<Tasks> GetTasksDueWithin48Hours()
         {
             // Implement the logic to retrieve tasks due within 48 hours for the specified user
             // You can interact with your data storage or repository here
@@ -82,13 +82,23 @@ namespace CleanProjMgt.Infrastructure
             // Example logic to retrieve tasks due within 48 hours
             foreach (var task in allTasks) // Replace with actual task retrieval logic
             {
-                if (task.Id == userId && task.Due_date > now && task.Due_date <= now.AddHours(48))
+                if (task.Due_date > now && task.Due_date <= now.AddHours(48))
                 {
                     dueWithin48Hours.Add(task);
                 }
             }
 
             return dueWithin48Hours;
+        }
+
+        public List<Tasks> GetCompletedTasks()
+        {
+            // Implement the logic to retrieve completed tasks for the specified user
+            // You can interact with your data storage or repository here
+
+            return dbContext.Tasks
+                .Where(task => task.status == Status.Completed)
+                .ToList();
         }
 
     }

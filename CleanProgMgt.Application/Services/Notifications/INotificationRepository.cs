@@ -9,9 +9,12 @@ namespace CleanProgMgt.Application.Services.Notifications
 {
     public interface INotificationRepository
     {
+        IEnumerable<Notification> GetAllNotifications();
         List<Notification> GetNotificationsForUser(int userId);
-        void AddNotification(string userId, string type, string message);
-        void MarkNotificationAsRead(int notificationId);
-        void MarkNotificationAsUnread(int notificationId);
+        Notification AddNotification(Notification notification);
+        bool MarkNotification(int notificationId, bool isRead);
+        Notification GetNotificationById(long? id);
+        Notification Update(Notification notificationChanges);
+        Notification Delete(int id);
     }
 }

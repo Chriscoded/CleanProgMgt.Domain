@@ -24,8 +24,4 @@
     <ProjectReference Include="..\CleanProgMgt.Application\CleanProgMgt.Application.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
-
 </Project>

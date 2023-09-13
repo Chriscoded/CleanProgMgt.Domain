@@ -1,4 +1,5 @@
-﻿using CleanProgMgt.Domain;
+﻿using CleanProgMgt.Application.Services.Task;
+using CleanProgMgt.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,19 +21,42 @@ namespace CleanProgMgt.Application.Services.Notifications
             return notificationRepository.GetNotificationsForUser(userId);
         }
 
-        public void AddNotification(int userId, string type, string message)
+        public bool MarkNotification(int notificationId, bool isRead)
         {
-            // Implement logic to add a new notification for a user
+           return notificationRepository.MarkNotification(notificationId, isRead); ;
         }
 
-        public void MarkNotificationAsRead(int notificationId)
+        public Notification GetNotificationById(long? id)
         {
-            // Implement logic to mark a notification as read
+            var notification = notificationRepository.GetNotificationById(id);
+            return notification;
         }
 
-        public void MarkNotificationAsUnread(int notificationId)
+        public Notification Update(Notification notificationChanges)
         {
-            // Implement logic to mark a notification as unread
+            var notification = notificationRepository.Update(notificationChanges);
+            return notification;
+        }
+
+        public Notification Delete(int id)
+        {
+            var notification = notificationRepository.Delete(id);
+            return notification;
+        }
+
+        public List<Notification> GetTaskDueWithin48Hours()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Notification> GetAllNotifications()
+        {
+            return notificationRepository.GetAllNotifications();
+        }
+
+        public Notification AddNotification(Notification notification)
+        {
+            return notificationRepository.AddNotification(notification);
         }
     }
 }

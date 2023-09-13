@@ -15,7 +15,8 @@ namespace CleanProgMgt.Application.Services.Task
         Tasks GetTaskById(long? id);
         Tasks Update(Tasks taskChanges);
         Tasks Delete(int id);
-        List<Tasks> GetTasksDueWithin48Hours(int userId);
+        List<Tasks> GetTasksDueWithin48Hours();
+        List<Tasks> GetCompletedTasks();
 
     }
 }

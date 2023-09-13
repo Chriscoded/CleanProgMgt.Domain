@@ -1,4 +1,5 @@
-﻿using CleanProgMgt.Domain;
+﻿using CleanProgMgt.Application.Dtos;
+using CleanProgMgt.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace CleanProgMgt.Application.Services.Users
         User CreateUser(User user);
 
         User GetUserById(long? id);
-        User Update(User userChanges);
+        User Update(int id, UserCreateDto userChanges);
         User Delete(int id);
     }
 }

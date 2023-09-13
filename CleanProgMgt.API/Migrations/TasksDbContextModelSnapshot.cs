@@ -33,17 +33,20 @@ namespace CleanProgMgt.API.Migrations
                     b.Property<DateTime>("Due_date")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Timestamp")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("UserId")
-                        .IsRequired()
+                    b.Property<int>("Type")
                         .HasColumnType("int");
 
-                    b.Property<int>("type")
+                    b.Property<int?>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -144,9 +147,7 @@ namespace CleanProgMgt.API.Migrations
                 {
                     b.HasOne("CleanProgMgt.Domain.User", "User")
                         .WithMany("Notifications")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });

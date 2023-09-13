@@ -48,10 +48,14 @@ namespace CleanProgMgt.Application.Services.Task
             var Task = tasksRepository.Delete(id);
             return Task;
         }
-        public List<Tasks> GetTasksDueWithin48Hours(int userId)
+        public List<Tasks> GetTasksDueWithin48Hours()
         {
-            return tasksRepository.GetTasksDueWithin48Hours(userId);
+            return tasksRepository.GetTasksDueWithin48Hours();
         }
 
+        public List<Tasks> GetCompletedTasks()
+        {
+            return tasksRepository.GetCompletedTasks();
+        }
     }
 }

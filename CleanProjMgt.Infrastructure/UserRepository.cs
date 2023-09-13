@@ -1,5 +1,7 @@
-﻿using CleanProgMgt.Application.Services.Users;
+﻿using CleanProgMgt.Application.Dtos;
+using CleanProgMgt.Application.Services.Users;
 using CleanProgMgt.Domain;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,12 +49,24 @@ namespace CleanProjMgt.Infrastructure
             else return data;
         }
 
-        public User Update(User userChanges)
+        public User Update(int id, UserCreateDto userChanges)
         {
-            var user = dbContext.Users.Attach(userChanges);
             //user.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            var userToUpdate = dbContext.Users.Find(id);
+
+            if (userToUpdate == null)
+            {
+                // Handle not found error, e.g., throw an exception
+                return null;
+            }
+
+            // Update the task properties with values from the DTO
+            userToUpdate.Name = userChanges.Name;
+            userToUpdate.Email = userChanges.Email;
+            // Update other properties as needed
+
             dbContext.SaveChanges();
-            return userChanges;
+            return userToUpdate;
         }
     }
 }

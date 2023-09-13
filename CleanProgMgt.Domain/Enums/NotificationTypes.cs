@@ -8,7 +8,7 @@ namespace CleanProgMgt.Domain.Enums
 {
     public enum NotificationTypes
     {
-        due_date_reminder,
-        status_update
+        due_date_reminder = 1,
+        status_update = 2
     }
 }

@@ -73,11 +73,11 @@ namespace CleanProgMgt.API.Controllers
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {
-            //Project project = projectService.GetProjectById(id);
-            //if (project != null)
-            //{
-            //    projectService.Delete(id);
-            //}
+            Project project = projectService.GetProjectById(id);
+            if (project != null)
+            {
+                projectService.Delete(id);
+            }
 
             return NoContent();
         }
