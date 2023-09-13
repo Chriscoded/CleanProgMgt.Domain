@@ -1,4 +1,5 @@
-﻿using CleanProgMgt.Domain;
+﻿using CleanProgMgt.Application.Dtos;
+using CleanProgMgt.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace CleanProgMgt.Application.Services.Task
         Tasks CreateTask(Tasks task);
 
         Tasks GetTaskById(long? id);
-        Tasks Update(Tasks taskChanges);
+        Tasks Update(int id, TaskCreateDto taskChanges);
         Tasks Delete(int id);
         List<Tasks> GetTasksDueWithin48Hours();
         List<Tasks> GetCompletedTasks();

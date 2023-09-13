@@ -1,4 +1,5 @@
-﻿using CleanProgMgt.Application.Services.Task;
+﻿using CleanProgMgt.Application.Dtos;
+using CleanProgMgt.Application.Services.Task;
 using CleanProgMgt.Domain;
 using System;
 using System.Collections.Generic;
@@ -32,9 +33,9 @@ namespace CleanProgMgt.Application.Services.Notifications
             return notification;
         }
 
-        public Notification Update(Notification notificationChanges)
+        Notification Update(int id, NotificationCreateDto notificationChanges)
         {
-            var notification = notificationRepository.Update(notificationChanges);
+            var notification = notificationRepository.Update(id,notificationChanges);
             return notification;
         }
 

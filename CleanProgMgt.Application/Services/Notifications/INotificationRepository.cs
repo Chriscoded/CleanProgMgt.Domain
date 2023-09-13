@@ -1,4 +1,5 @@
-﻿using CleanProgMgt.Domain;
+﻿using CleanProgMgt.Application.Dtos;
+using CleanProgMgt.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace CleanProgMgt.Application.Services.Notifications
         Notification AddNotification(Notification notification);
         bool MarkNotification(int notificationId, bool isRead);
         Notification GetNotificationById(long? id);
-        Notification Update(Notification notificationChanges);
+        Notification Update(int id, NotificationCreateDto notificationChanges);
         Notification Delete(int id);
     }
 }

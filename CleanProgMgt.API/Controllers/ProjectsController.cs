@@ -56,16 +56,12 @@ namespace CleanProgMgt.API.Controllers
         [HttpPut("{id}")]
         public ActionResult<ProjectReadDto> Put(int id, ProjectCreateDto projectChanges)
         {
-            Project project = projectService.GetProjectById(id);
-            if (project != null)
-            {
-                var projectModel = mapper.Map<Project>(projectChanges);
-                var serviceProject = projectService.Update(projectModel);
-                var userDto = mapper.Map<UserReadDto>(serviceProject);
+            var project = projectService.GetProjectById(id);
+            if (project != null) { 
+                var serviceProject = projectService.Update(id,projectChanges);
+                var projectDto = mapper.Map<ProjectReadDto>(serviceProject);
 
-                //projectService.Update(projectChanges);
             }
-
             return NoContent();
         }
 

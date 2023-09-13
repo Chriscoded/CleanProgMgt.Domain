@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CleanProgMgt.Application.Dtos;
 using CleanProgMgt.Domain;
 
 namespace CleanProgMgt.Application.Services.Notifications
@@ -14,7 +15,7 @@ namespace CleanProgMgt.Application.Services.Notifications
         Notification AddNotification(Notification notification);
         bool MarkNotification(int notificationId, bool isRead);
         Notification GetNotificationById(long? id);
-        Notification Update(Notification notificationChanges);
+        Notification Update(int id, NotificationCreateDto notificationChanges);
         Notification Delete(int id);
         List<Notification> GetTaskDueWithin48Hours();
     }

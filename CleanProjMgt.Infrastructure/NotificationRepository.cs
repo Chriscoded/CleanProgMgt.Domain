@@ -1,4 +1,5 @@
-﻿using CleanProgMgt.Application.Services.Notifications;
+﻿using CleanProgMgt.Application.Dtos;
+using CleanProgMgt.Application.Services.Notifications;
 using CleanProgMgt.Domain;
 using CleanProgMgt.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
@@ -74,9 +75,27 @@ namespace CleanProjMgt.Infrastructure
             return false;
         }
 
-        public Notification Update(Notification notificationChanges)
+        public Notification Update(int id, NotificationCreateDto notificationChanges)
         {
-            throw new NotImplementedException();
+            //user.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            var notificationToUpdate = dbContext.Notification.Find(id);
+
+            if (notificationToUpdate == null)
+            {
+                // Handle not found error, e.g., throw an exception
+                return null;
+            }
+
+            // Update the task properties with values from the DTO
+            notificationToUpdate.Message = notificationChanges.Message;
+            notificationToUpdate.Type = notificationChanges.Type;
+            notificationToUpdate.Status = notificationChanges.Status;
+            notificationToUpdate.Due_date = notificationChanges.Due_date;
+            notificationToUpdate.Timestamp = notificationChanges.Timestamp;
+            // Update other properties as needed
+
+            dbContext.SaveChanges();
+            return notificationToUpdate;
         }
 
 

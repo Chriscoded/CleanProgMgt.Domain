@@ -56,11 +56,12 @@ namespace CleanProgMgt.API.Controllers
         [HttpPut("{id}")]
         public ActionResult<Task> Put(int id, TaskCreateDto taskChanges)
         {
-            //var task = tasksService.GetTaskById(id);
-            //if (task != null)
-            //{
-            //    tasksService.Update(taskChanges);
-            //}
+            var task = tasksService.GetTaskById(id);
+            if (task != null)
+            {
+                var serviceTask = tasksService.Update(id,taskChanges);
+                var taskDto = mapper.Map<TaskReadDto>(serviceTask);
+            }
 
             return NoContent();
         }

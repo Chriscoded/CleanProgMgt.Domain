@@ -1,4 +1,5 @@
-﻿using CleanProgMgt.Domain;
+﻿using CleanProgMgt.Application.Dtos;
+using CleanProgMgt.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,9 +39,9 @@ namespace CleanProgMgt.Application.Services.Task
             return task;
         }
 
-        public Tasks Update(Tasks taskChanges)
+        public Tasks Update(int id, TaskCreateDto taskChanges)
         {
-            var Task = tasksRepository.Update(taskChanges);
+            var Task = tasksRepository.Update(id,taskChanges);
             return Task;
         }
         public Tasks Delete(int id)

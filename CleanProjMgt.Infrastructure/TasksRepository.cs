@@ -1,4 +1,5 @@
-﻿using CleanProgMgt.Application.Services.Task;
+﻿using CleanProgMgt.Application.Dtos;
+using CleanProgMgt.Application.Services.Task;
 using CleanProgMgt.Domain;
 using CleanProgMgt.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
@@ -51,13 +52,29 @@ namespace CleanProjMgt.Infrastructure
             else return data;
         }
 
-        public Tasks Update(Tasks taskChanges)
+        public Tasks Update(int id, TaskCreateDto taskChanges)
         {
-            var task = dbContext.Tasks.Attach(taskChanges);
-            //task.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            //user.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            var taskToUpdate = dbContext.Tasks.Find(id);
+
+            if (taskToUpdate == null)
+            {
+                // Handle not found error, e.g., throw an exception
+                return null;
+            }
+
+            // Update the task properties with values from the DTO
+            taskToUpdate.Title = taskChanges.Title;
+            taskToUpdate.Description = taskChanges.Description;
+            taskToUpdate.Due_date = taskChanges.Due_date;
+            taskToUpdate.status = taskChanges.status;
+            taskToUpdate.Priority = taskChanges.Priority;
+            // Update other properties as needed
+
             dbContext.SaveChanges();
-            return taskChanges;
+            return taskToUpdate;
         }
+
 
         public Tasks Delete(int id)
         {    

@@ -15,8 +15,6 @@ namespace CleanProgMgt.Application.Dtos
         [Required]
         public string Description { get; set; } = string.Empty;
         [Required]
-        public DateTime Created_at { get; set; } = DateTime.Now;
-        [Required]
         public DateTime Due_date { get; set; }
         [Required]
         public Priority Priority { get; set; }

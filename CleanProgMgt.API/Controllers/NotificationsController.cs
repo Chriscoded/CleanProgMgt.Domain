@@ -75,6 +75,13 @@ namespace CleanProgMgt.API.Controllers
         [HttpPut("{id}")]
         public ActionResult<NotificationReadDto> Put(int id, NotificationCreateDto notificationChanges)
         {
+            var notification = notificationsService.GetNotificationById(id);
+            if (notification != null)
+            {
+                var serviceNotification = notificationsService.Update(id, notificationChanges);
+                var taskDto = mapper.Map<NotificationReadDto>(serviceNotification);
+            }
+
             return NoContent();
         }
 

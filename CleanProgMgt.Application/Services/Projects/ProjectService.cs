@@ -1,4 +1,5 @@
-﻿using CleanProgMgt.Domain;
+﻿using CleanProgMgt.Application.Dtos;
+using CleanProgMgt.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,9 +36,9 @@ namespace CleanProgMgt.Application.Services.Projects
             return projectRepository.GetProjectById(id);
         }
 
-        public Project Update(Project projectChanges)
+        public Project Update(int id, ProjectCreateDto projectChanges)
         {
-            return projectRepository.Update(projectChanges);
+            return projectRepository.Update(id,projectChanges);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using CleanProgMgt.Application.Services.Projects;
+﻿using CleanProgMgt.Application.Dtos;
+using CleanProgMgt.Application.Services.Projects;
 using CleanProgMgt.Domain;
 using System;
 using System.Collections.Generic;
@@ -47,13 +48,25 @@ namespace CleanProjMgt.Infrastructure
             else return data;
         }
 
-        public Project Update(Project projectChanges)
+        public Project Update(int id, ProjectCreateDto projectChanges)
         {
-            var project = dbContext.Project.Attach(projectChanges);
-            dbContext.Project.Update(projectChanges);
-            //project.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            //user.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            var projectToUpdate = dbContext.Project.Find(id);
+
+            if (projectToUpdate == null)
+            {
+                // Handle not found error, e.g., throw an exception
+                return null;
+            }
+
+            // Update the task properties with values from the DTO
+            projectToUpdate.Name = projectChanges.Name;
+            projectToUpdate.Description = projectChanges.Description;
+            
+            // Update other properties as needed
+
             dbContext.SaveChanges();
-            return projectChanges;
+            return projectToUpdate;
         }
     }
 }
