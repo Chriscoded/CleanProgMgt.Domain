@@ -15,7 +15,7 @@ namespace CleanProgMgt.Domain
         public DateTime Due_date { get; set; }
         public string Message { get; set; }
         public NotificationTypes Type { get; set; }
-        public DateTime Timestamp { get; set; }
+        public DateTime Timestamp { get; set; } = DateTime.Now;
         public NotificationStatus Status { get; set; } 
         public int? UserId { get; set; }
         public User? User { get; set; }

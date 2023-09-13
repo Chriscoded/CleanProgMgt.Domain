@@ -33,7 +33,7 @@ namespace CleanProgMgt.Application.Services.Notifications
             return notification;
         }
 
-        Notification Update(int id, NotificationCreateDto notificationChanges)
+        public Notification Update(int id, NotificationCreateDto notificationChanges)
         {
             var notification = notificationRepository.Update(id,notificationChanges);
             return notification;

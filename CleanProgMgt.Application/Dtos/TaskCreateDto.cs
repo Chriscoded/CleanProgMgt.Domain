@@ -20,6 +20,11 @@ namespace CleanProgMgt.Application.Dtos
         public Priority Priority { get; set; }
         [Required]
         public Status status { get; set; }
+        [Required]
+        public int? ProjectId { get; set; }
+
+        [Required]
+        public int? UserId { get; set; }
 
     }
 }

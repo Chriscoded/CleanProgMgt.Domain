@@ -19,6 +19,7 @@ namespace CleanProjMgt.Infrastructure
         //DateTime fourDaysFromToday = today.AddDays(4);
 
         private readonly TasksDbContext dbContext;
+
         public TasksRepository(TasksDbContext dbContext)
         {
             this.dbContext = dbContext;
@@ -33,6 +34,7 @@ namespace CleanProjMgt.Infrastructure
 
         public IEnumerable<Tasks> GetAllTasks()
         {
+
             return dbContext.Tasks;
             
         }
@@ -69,6 +71,8 @@ namespace CleanProjMgt.Infrastructure
             taskToUpdate.Due_date = taskChanges.Due_date;
             taskToUpdate.status = taskChanges.status;
             taskToUpdate.Priority = taskChanges.Priority;
+            taskToUpdate.ProjectId = taskChanges.ProjectId;
+            taskToUpdate.UserId = taskChanges.UserId;
             // Update other properties as needed
 
             dbContext.SaveChanges();
@@ -96,16 +100,16 @@ namespace CleanProjMgt.Infrastructure
 
             List<Tasks> allTasks = dbContext.Tasks.ToList();
 
-            // Example logic to retrieve tasks due within 48 hours
-            foreach (var task in allTasks) // Replace with actual task retrieval logic
-            {
-                if (task.Due_date > now && task.Due_date <= now.AddHours(48))
-                {
-                    dueWithin48Hours.Add(task);
-                }
-            }
+            //// Example logic to retrieve tasks due within 48 hours
+            //foreach (var task in allTasks) // Replace with actual task retrieval logic
+            //{
+            //    if (task.Due_date > now && task.Due_date <= now.AddMinutes(48) && task.status == Status.Pending)
+            //    {
+            //        dueWithin48Hours.Add(task);
+            //    }
+            //}
 
-            return dueWithin48Hours;
+            return allTasks;
         }
 
         public List<Tasks> GetCompletedTasks()

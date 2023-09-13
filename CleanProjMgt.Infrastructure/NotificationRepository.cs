@@ -91,7 +91,8 @@ namespace CleanProjMgt.Infrastructure
             notificationToUpdate.Type = notificationChanges.Type;
             notificationToUpdate.Status = notificationChanges.Status;
             notificationToUpdate.Due_date = notificationChanges.Due_date;
-            notificationToUpdate.Timestamp = notificationChanges.Timestamp;
+            notificationToUpdate.UserId = notificationChanges.UserId;
+            //notificationToUpdate.Timestamp = notificationChanges.Timestamp;
             // Update other properties as needed
 
             dbContext.SaveChanges();

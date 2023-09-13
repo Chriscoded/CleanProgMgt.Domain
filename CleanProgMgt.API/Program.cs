@@ -4,11 +4,14 @@ using CleanProgMgt.Application.Services.Task;
 using CleanProgMgt.Application.Services.Users;
 using CleanProgMgt.Domain;
 using CleanProjMgt.Infrastructure;
-using CleanProjMgt.Infrastructure.Services;
 //using CleanProjMgt.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using NLog.Extensions.Logging;
+using Hangfire;
+using Hangfire.SqlServer;
+using CleanProgMgt.Application.Services.BackgroundService;
+using Microsoft.Extensions.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +33,24 @@ builder.Services.AddDbContext<TasksDbContext>(
         opt => opt.UseSqlServer(configuration.GetConnectionString("DefaultConnection"), 
         b => b.MigrationsAssembly("CleanProgMgt.API")));
 
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+builder.Services.AddHangfire(configuration => configuration
+        .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+        .UseSimpleAssemblyNameTypeSerializer()
+        .UseRecommendedSerializerSettings()
+        .UseSqlServerStorage(connectionString, new SqlServerStorageOptions
+        {
+            CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
+            SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
+            QueuePollInterval = TimeSpan.Zero,
+            UseRecommendedIsolationLevel = true,
+            DisableGlobalLocks = true
+        }));
+builder.Services.AddHangfireServer();
+//builder.Services.AddHangfireServer(options =>
+//    options.SchedulePollingInterval = TimeSpan.FromSeconds(5)
+//   );
 // Add services to the container.
 builder.Services.AddScoped<ITasksService, TasksService>();
 builder.Services.AddScoped<ITasksRepository, TasksRepository>();
@@ -42,6 +63,8 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 builder.Services.AddScoped<INotificationsService, NotificationsService>();
 builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
+
+builder.Services.AddScoped<IBackgroundServices, CleanProgMgt.Application.Services.BackgroundService.BackgroundService>();
 
 //builder.Services.AddHostedService<NotificationBackgroundService>();
 
@@ -58,6 +81,10 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+app.UseHangfireDashboard();
+
+RecurringJob.AddOrUpdate<IBackgroundServices>("due-time", service => service.tasksDueSoon(),
+            Cron.Minutely);
 
 app.MapControllers();
 

@@ -17,8 +17,9 @@ namespace CleanProgMgt.Application.Dtos
         public NotificationTypes Type { get; set; }
         [Required]
         public string Message { get; set; }
-        public DateTime Timestamp { get; set; }
         [Required]
         public NotificationStatus Status { get; set; }
+        [Required]
+        public int? UserId { get; set; }
     }
 }

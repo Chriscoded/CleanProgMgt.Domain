@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
 using CleanProgMgt.Application.Dtos;
+using CleanProgMgt.Application.Services.Notifications;
 using CleanProgMgt.Application.Services.Task;
 using CleanProgMgt.Application.Services.Users;
 using CleanProgMgt.Domain;
+using CleanProgMgt.Domain.Enums;
+using Hangfire;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -15,17 +18,23 @@ namespace CleanProgMgt.API.Controllers
     {
         private readonly ITasksService tasksService;
         private readonly IMapper mapper;
+        private readonly IBackgroundJobClient backgroundJobClient;
+        private readonly INotificationsService notificationService;
 
-        public TasksController(ITasksService tasksService, IMapper mapper)
+        public TasksController(ITasksService tasksService, IMapper mapper, 
+                IBackgroundJobClient backgroundJobClient, INotificationsService notificationService)
         {
             this.tasksService = tasksService;
             this.mapper = mapper;
+            this.backgroundJobClient = backgroundJobClient;
+            this.notificationService = notificationService;
         }
 
         // GET: api/<TasksController>
         [HttpGet]
         public ActionResult<List<TaskReadDto>> Get()
         {
+
             var tasksFromService = tasksService.GetAllTasks();
             return Ok(mapper.Map<IEnumerable<TaskReadDto>>(tasksFromService));
         }
@@ -48,6 +57,23 @@ namespace CleanProgMgt.API.Controllers
             var serviceTask = tasksService.CreateTask(taskModel);
 
             var taskDto = mapper.Map<TaskReadDto>(serviceTask);
+
+            var notification = new Notification {
+                Due_date = DateTime.Now,
+                Message = "New task assigned",
+                Type = NotificationTypes.new_task,
+                Status = NotificationStatus.Unread,
+                UserId = 1
+            };
+
+            backgroundJobClient.Enqueue<INotificationsService>(notificationService =>
+               notificationService.AddNotification(notification)
+               );
+
+            //var personName = "kc";
+            //backgroundJobClient.Schedule(() => 
+            //    Console.WriteLine("The name is " + personName),
+            //    TimeSpan.FromSeconds(5));
 
             return CreatedAtRoute(nameof(GetTaskById), new { Id = taskDto.Id }, taskDto);
         }
