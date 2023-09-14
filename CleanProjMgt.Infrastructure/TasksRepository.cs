@@ -198,11 +198,22 @@ namespace CleanProjMgt.Infrastructure
 
             task.status = newStatus;
             // task.LastStatusChangeDate = DateTime.UtcNow; // Optionally, update the last status change date
-            var newtask = mapper.Map<TaskCreateDto>(task);
-            
+            // var newtask = mapper.Map<TaskCreateDto>(task);
+            var taskCreateDto = new TaskCreateDto
+            {
+                Title = task.Title,
+                Description = task.Description,
+                Due_date = task.Due_date,
+                Priority = task.Priority,
+                status = task.status,
+                ProjectId = task.ProjectId,
+                UserId = task.UserId
+                // Include other properties as needed
+            };
+
             try
             {
-                Update(taskId, newtask); // Implement this method in your repository to update the task
+                Update(taskId, taskCreateDto); // Implement this method in your repository to update the task
                 return true;
             }
             catch (Exception ex)
