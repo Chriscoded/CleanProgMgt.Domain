@@ -2,7 +2,6 @@
 Project Managements software built with ASP.NET CORE version 7 with clean architecture
 
 # Overview
-Provide a brief overview of your API, including its purpose, main features, and any key components.
 This is a simple application that allows you to perform CRUD operations on Task, Notification, Project and Users
 
 # Prerequisites
