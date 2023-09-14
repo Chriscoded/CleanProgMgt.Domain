@@ -43,24 +43,42 @@ namespace CleanProgMgt.API.Controllers
         [HttpPost]
         public ActionResult<ProjectReadDto> Post(ProjectCreateDto project)
         {
-            var projectModel = mapper.Map<Project>(project);
-            var proj = projectService.CreateProject(projectModel);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            if (ModelState.IsValid)
+            {
+                var projectModel = mapper.Map<Project>(project);
+                var proj = projectService.CreateProject(projectModel);
 
-            var projectDto = mapper.Map<ProjectReadDto>(proj);
-            //return Ok(Task);
-            //return CreatedAtRoute("Get", new { Id = Task.Id }, Task);
-            return CreatedAtRoute(nameof(GetProjectById), new { Id = projectDto.Id }, projectDto);
+                var projectDto = mapper.Map<ProjectReadDto>(proj);
+                //return Ok(Task);
+                //return CreatedAtRoute("Get", new { Id = Task.Id }, Task);
+                return CreatedAtRoute(nameof(GetProjectById), new { Id = projectDto.Id }, projectDto);
+            }
+            return Ok();
         }
 
         // PUT api/<ProjectsController>/5
         [HttpPut("{id}")]
         public ActionResult<ProjectReadDto> Put(int id, ProjectCreateDto projectChanges)
         {
-            var project = projectService.GetProjectById(id);
-            if (project != null) { 
-                var serviceProject = projectService.Update(id,projectChanges);
-                var projectDto = mapper.Map<ProjectReadDto>(serviceProject);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            if (ModelState.IsValid)
+            {
+                var project = projectService.GetProjectById(id);
+                if (project != null) { 
+                    var serviceProject = projectService.Update(id,projectChanges);
+                    var projectDto = mapper.Map<ProjectReadDto>(serviceProject);
 
+                }
+                else{
+                    return NotFound("Project not found.");
+                }
             }
             return NoContent();
         }
@@ -74,6 +92,9 @@ namespace CleanProgMgt.API.Controllers
             {
                 projectService.Delete(id);
             }
+             else{
+                    return NotFound("Project not found.");
+                }
 
             return NoContent();
         }

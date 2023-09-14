@@ -34,6 +34,7 @@ namespace CleanProgMgt.API.Controllers
         [HttpGet]
         public ActionResult<List<TaskReadDto>> Get()
         {
+            //var due = tasksService.GetTasksDueWithin48Hours();
 
             var tasksFromService = tasksService.GetAllTasks();
             return Ok(mapper.Map<IEnumerable<TaskReadDto>>(tasksFromService));
@@ -52,41 +53,74 @@ namespace CleanProgMgt.API.Controllers
         [HttpPost]
         public ActionResult<TaskReadDto> Post(TaskCreateDto task)
         {
-            
-            var taskModel = mapper.Map<Tasks>(task);
-            var serviceTask = tasksService.CreateTask(taskModel);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            if (ModelState.IsValid)
+            {
+               
+                var taskModel = mapper.Map<Tasks>(task);
+                var serviceTask = tasksService.CreateTask(taskModel);
 
-            var taskDto = mapper.Map<TaskReadDto>(serviceTask);
+                var taskDto = mapper.Map<TaskReadDto>(serviceTask);
 
-            var notification = new Notification {
-                Due_date = DateTime.Now,
-                Message = "New task assigned",
-                Type = NotificationTypes.new_task,
-                Status = NotificationStatus.Unread,
-                UserId = 1
-            };
+                var notification = new Notification {
+                    Due_date = DateTime.Now,
+                    Message = "New task assigned",
+                    Type = NotificationTypes.new_task,
+                    Status = NotificationStatus.Unread,
+                    UserId = 1
+                };
 
-            backgroundJobClient.Enqueue<INotificationsService>(notificationService =>
-               notificationService.AddNotification(notification)
-               );
+                backgroundJobClient.Enqueue<INotificationsService>(notificationService =>
+                notificationService.AddNotification(notification)
+                );
 
-            //var personName = "kc";
-            //backgroundJobClient.Schedule(() => 
-            //    Console.WriteLine("The name is " + personName),
-            //    TimeSpan.FromSeconds(5));
+                //var personName = "kc";
+                //backgroundJobClient.Schedule(() => 
+                //    Console.WriteLine("The name is " + personName),
+                //    TimeSpan.FromSeconds(5));
 
-            return CreatedAtRoute(nameof(GetTaskById), new { Id = taskDto.Id }, taskDto);
+                return CreatedAtRoute(nameof(GetTaskById), new { Id = taskDto.Id }, taskDto);
+            }
+            return Ok();
         }
 
         // PUT api/<TasksController>/5
         [HttpPut("{id}")]
         public ActionResult<Task> Put(int id, TaskCreateDto taskChanges)
         {
-            var task = tasksService.GetTaskById(id);
-            if (task != null)
+            if (!ModelState.IsValid)
             {
-                var serviceTask = tasksService.Update(id,taskChanges);
-                var taskDto = mapper.Map<TaskReadDto>(serviceTask);
+                return BadRequest(ModelState);
+            }
+            if (ModelState.IsValid)
+            {
+                var task = tasksService.GetTaskById(id);
+                if (task != null)
+                {
+                    var serviceTask = tasksService.Update(id,taskChanges);
+                    var taskDto = mapper.Map<TaskReadDto>(serviceTask);
+
+                    if(taskChanges.status == Status.Completed){
+                        var notification = new Notification {
+                        Due_date = DateTime.Now,
+                        Message = "Task is Completed",
+                        Type = NotificationTypes.status_update,
+                        Status = NotificationStatus.Read,
+                        UserId = 1
+                        
+                        };
+
+                        backgroundJobClient.Enqueue<INotificationsService>(notificationService =>
+                        notificationService.AddNotification(notification)
+                        );
+                    }
+                }
+                 else{
+                    return NotFound("Task not found.");
+                }
             }
 
             return NoContent();
@@ -101,8 +135,56 @@ namespace CleanProgMgt.API.Controllers
             {
                 tasksService.Delete(id);
             }
+             else{
+                    return NotFound("Task not found.");
+                }
+            
 
             return NoContent();
         }
+
+         [HttpGet("GetTasksByStatusOrPriority", Name = "GetTasksByStatusOrPriority")]
+        public ActionResult<IEnumerable<TaskReadDto>> GetTasksByStatusOrPriority([FromQuery] string ? status, [FromQuery] string ? priority)
+        {
+            if(status == null && priority ==null){
+                return NotFound("No tasks found.");
+            }
+
+            var tasks = tasksService.GetTasksByStatusOrPriority(status, priority);
+
+            if (tasks == null || tasks.Count == 0)
+            {
+                return NotFound("No tasks found.");
+            }
+
+            return Ok(tasks);
+        }
+
+        [HttpGet("due-this-week")]
+        public ActionResult<IEnumerable<TaskReadDto>> GetTasksDueThisWeek()
+        {
+            var currentWeekTasks = tasksService.GetTasksDueThisWeek();
+
+            if (currentWeekTasks == null || currentWeekTasks.Count == 0)
+            {
+                return NotFound("No tasks due this week.");
+            }
+
+            return Ok(currentWeekTasks);
+        }
+
+        [HttpGet("change-task-status")]
+        public ActionResult<IEnumerable<TaskReadDto>> ChangeTaskStatus(string id, string status)
+        {
+             var tasks = tasksService.ChangeTaskStatus(id, status);
+
+            if (tasks == null)
+            {
+                return NotFound("Failed to change status");
+            }
+
+            return NoContent();
+        }
+
     }
 }

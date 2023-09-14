@@ -62,12 +62,20 @@ namespace CleanProgMgt.API.Controllers
         public ActionResult<NotificationReadDto> Post(NotificationCreateDto notification)
         {
 
-            var notificationModel = mapper.Map<Notification>(notification);
-            var servicenotification = notificationsService.AddNotification(notificationModel);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            if (ModelState.IsValid)
+            {
+                var notificationModel = mapper.Map<Notification>(notification);
+                var servicenotification = notificationsService.AddNotification(notificationModel);
 
-            var notificationDto = mapper.Map<NotificationReadDto>(servicenotification);
-
-            return CreatedAtRoute(nameof(GetNotificationById), new { Id = notificationDto.Id }, notificationDto);
+                var notificationDto = mapper.Map<NotificationReadDto>(servicenotification);
+                return CreatedAtRoute(nameof(GetNotificationById), new { Id = notificationDto.Id }, notificationDto);
+            }
+            return Ok();
+           
         }
 
 
@@ -75,11 +83,21 @@ namespace CleanProgMgt.API.Controllers
         [HttpPut("{id}")]
         public ActionResult<NotificationReadDto> Put(int id, NotificationCreateDto notificationChanges)
         {
-            var notification = notificationsService.GetNotificationById(id);
-            if (notification != null)
+            if (!ModelState.IsValid)
             {
-                var serviceNotification = notificationsService.Update(id, notificationChanges);
-                var taskDto = mapper.Map<NotificationReadDto>(serviceNotification);
+                return BadRequest(ModelState);
+            }
+            if (ModelState.IsValid)
+            {
+                var notification = notificationsService.GetNotificationById(id);
+                if (notification != null)
+                {
+                    var serviceNotification = notificationsService.Update(id, notificationChanges);
+                    var taskDto = mapper.Map<NotificationReadDto>(serviceNotification);
+                }
+                 else{
+                    return NotFound("Notification not found.");
+                }
             }
 
             return NoContent();
@@ -94,6 +112,9 @@ namespace CleanProgMgt.API.Controllers
             {
                 notificationsService.Delete(id);
             }
+             else{
+                    return NotFound("Notification not found.");
+                }
 
             return NoContent();
         }

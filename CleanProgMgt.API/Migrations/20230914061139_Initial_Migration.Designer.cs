@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CleanProgMgt.API.Migrations
 {
     [DbContext(typeof(TasksDbContext))]
-    [Migration("20230913064406_notification")]
-    partial class notification
+    [Migration("20230914061139_Initial_Migration")]
+    partial class Initial_Migration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -41,12 +41,12 @@ namespace CleanProgMgt.Application.Services.BackgroundService
                 };
 
                 // Create a notification for the task's due date
-                notificationsService.AddNotification(notification);
+                var not = notificationsService.AddNotification(notification);
                 Console.WriteLine("Due task Notified");
-
-                logger.LogInformation("Due task Notified");
-                logger.LogInformation($"{ tasksDue}");
             }
+
+            logger.LogInformation("Due task Notified");
+            logger.LogInformation($"{tasksDue}");
 
         }
 

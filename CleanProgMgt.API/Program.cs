@@ -12,6 +12,7 @@ using Hangfire;
 using Hangfire.SqlServer;
 using CleanProgMgt.Application.Services.BackgroundService;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,7 +32,9 @@ builder.Services.AddSwaggerGen();
 //Add Database service
 builder.Services.AddDbContext<TasksDbContext>(
         opt => opt.UseSqlServer(configuration.GetConnectionString("DefaultConnection"), 
-        b => b.MigrationsAssembly("CleanProgMgt.API")));
+        b => b.MigrationsAssembly("CleanProgMgt.API")
+        //opt => opt.EnableSensitiveDataLogging() // Enable sensitive data logging
+));
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 

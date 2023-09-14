@@ -1,5 +1,6 @@
 ﻿using CleanProgMgt.Application.Dtos;
 using CleanProgMgt.Domain;
+using CleanProgMgt.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -57,6 +58,21 @@ namespace CleanProgMgt.Application.Services.Task
         public List<Tasks> GetCompletedTasks()
         {
             return tasksRepository.GetCompletedTasks();
+        }
+
+        public List<TaskReadDto> GetTasksByStatusOrPriority(string status, string priority)
+        {
+            return tasksRepository.GetTasksByStatusOrPriority(status,priority);
+        }
+
+        public List<TaskReadDto> GetTasksDueThisWeek()
+        {
+            return tasksRepository.GetTasksDueThisWeek();
+        }
+
+        public bool ChangeTaskStatus(string id, string status)
+        {
+           return tasksRepository.ChangeTaskStatus(id, status);
         }
     }
 }

@@ -18,6 +18,10 @@ namespace CleanProgMgt.Application.Services.Task
         Tasks Delete(int id);
         List<Tasks> GetTasksDueWithin48Hours();
         List<Tasks> GetCompletedTasks();
+        List<TaskReadDto> GetTasksByStatusOrPriority(string status, string priority);
+        List<TaskReadDto> GetTasksDueThisWeek();
+        List<Tasks> GetTasksDueBetweenDates(DateTime startDate, DateTime endDate);
+        bool ChangeTaskStatus(string id, string status);
 
     }
 }

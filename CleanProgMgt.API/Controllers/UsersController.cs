@@ -47,11 +47,19 @@ namespace CleanProgMgt.API.Controllers
         [HttpPost]
         public ActionResult<UserReadDto> Post(UserCreateDto user)
         {
-            //logger.LogError($"iji{user}");
-            var userModel = mapper.Map<User>(user);
-            var serviceUser = userService.CreateUser(userModel);
-            var userDto = mapper.Map<UserReadDto>(serviceUser);
-            return CreatedAtRoute(nameof(GetUserById), new { Id = userDto.Id }, userDto);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            if (ModelState.IsValid)
+            {
+                //logger.LogError($"iji{user}");
+                var userModel = mapper.Map<User>(user);
+                var serviceUser = userService.CreateUser(userModel);
+                var userDto = mapper.Map<UserReadDto>(serviceUser);
+                 return CreatedAtRoute(nameof(GetUserById), new { Id = userDto.Id }, userDto);
+            }
+           return Ok();
         }
 
         // PUT api/<UsersController>/5
@@ -59,9 +67,20 @@ namespace CleanProgMgt.API.Controllers
         public ActionResult<TaskReadDto> Put(int id, UserCreateDto userChanges)
         {
 
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            if (ModelState.IsValid)
             {
                 var serviceUser = userService.Update(id,userChanges);
-                var userDto = mapper.Map<UserReadDto>(serviceUser);
+                if(serviceUser != null){
+                    var userDto = mapper.Map<UserReadDto>(serviceUser);
+                }
+                 else{
+                    return NotFound("User not found.");
+                }
+                
 
             }
 
@@ -77,6 +96,9 @@ namespace CleanProgMgt.API.Controllers
             {
                 userService.Delete(id);
             }
+             else{
+                    return NotFound("User not found.");
+                }
 
             return NoContent();
         }
