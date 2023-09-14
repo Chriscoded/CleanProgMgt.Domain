@@ -8,9 +8,9 @@ This is a simple application that allows you to perform CRUD operations on Task,
 # Prerequisites
 To run an ASP.NET Core application, developers typically install the following
 
-1. .NET Core SDK: The .NET Core SDK provides the necessary tools and libraries for developing and running ASP.NET Core applications. You can download the latest SDK from the official .NET website: [Download](#https://dotnet.microsoft.com/en-us/download/visual-studio-sdks) .NET SDK.
+1. .NET Core SDK: The .NET Core SDK provides the necessary tools and libraries for developing and running ASP.NET Core applications. You can download the latest SDK from the official .NET website: [Download](https://dotnet.microsoft.com/en-us/download/visual-studio-sdks) .NET SDK.
 
-2. Or Download Visual studio 2022 IDE or Text Editor: You need an integrated development environment (IDE) or a text editor to write, edit, and debug your ASP.NET Core code. Popular choices include Visual Studio  [Download](#https://visualstudio.microsoft.com/vs/community/) , Visual Studio Code [Download](#https://code.visualstudio.com/download), Rider, and others.
+2. Or Download Visual studio 2022 IDE or Text Editor: You need an integrated development environment (IDE) or a text editor to write, edit, and debug your ASP.NET Core code. Popular choices include Visual Studio  [Download](https://visualstudio.microsoft.com/vs/community/) , Visual Studio Code [Download](https://code.visualstudio.com/download), Rider, and others.
 
 3. Database Server (Optional): Depending on your application's requirements, you may need a database server like SQL Server, PostgreSQL, MySQL, or SQLite. ASP.NET Core supports a variety of database providers. Install the one that suits your needs and configure the connection string in your application.
 
