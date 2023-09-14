@@ -12,15 +12,13 @@ To run an ASP.NET Core application, developers typically install the following
 
 2. Or Download Visual studio 2022 IDE or Text Editor: You need an integrated development environment (IDE) or a text editor to write, edit, and debug your ASP.NET Core code. Popular choices include Visual Studio  [Download](https://visualstudio.microsoft.com/vs/community/) , Visual Studio Code [Download](https://code.visualstudio.com/download), Rider, and others.
 
-3. Database Server (Optional): Depending on your application's requirements, you may need a database server like SQL Server, PostgreSQL, MySQL, or SQLite. ASP.NET Core supports a variety of database providers. Install the one that suits your needs and configure the connection string in your application.
+3. SQL Server
 
-4. Operating System Compatibility: Ensure that your development machine's operating system is compatible with .NET Core. ASP.NET Core is cross-platform and works on Windows, macOS, and Linux.
+4. Web Browser: You'll need a web browser to test and interact with your ASP.NET Core web application.
 
-5. Web Browser: You'll need a web browser to test and interact with your ASP.NET Core web application.
+5. Git (Optional): If you're using source control with Git, you'll need Git installed to manage your code repository.
 
-6. Git (Optional): If you're using source control with Git, you'll need Git installed to manage your code repository.
-
-7. HTTP Tools (Optional): Tools like Postman or Insomnia can be useful for testing API endpoint
+6. HTTP Tools (Optional): Tools like Postman or Insomnia can be useful for testing API endpoint
 
 # Getting Started
 
