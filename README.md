@@ -2,7 +2,7 @@
 Project Managements software built with ASP.NET CORE version 7 with clean architecture
 
 # Overview
-This is a simple application that allows you to perform CRUD operations on Task, Notification, Project and Users
+This is a simple application that allows you to perform CRUD operations on Task, Notification, Project, Users and other operations that is listed in the provided end points
 
 # Prerequisites
 To run an ASP.NET Core application, developers typically install the following
