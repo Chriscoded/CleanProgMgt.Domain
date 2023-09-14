@@ -54,8 +54,8 @@ Sorry I had no time for proper documentation
 # Ensure you create a user and a project before creating tasks and notification as they hav one to many relationship
 
 # API Endpoints
-Notifications
 
+# Notifications
 
 PUT
 /api/Notifications/{notificationId}/mark-read
@@ -79,6 +79,7 @@ DELETE
 /api/Notifications/{id}
 Projects
 
+# Projects
 
 GET
 /api/Projects
@@ -96,6 +97,7 @@ DELETE
 /api/Projects/{id}
 Tasks
 
+# Tasks
 
 GET
 /api/Tasks
@@ -122,6 +124,7 @@ GET
 /api/Tasks/change-task-status
 Users
 
+# Users
 
 GET
 /api/Users
