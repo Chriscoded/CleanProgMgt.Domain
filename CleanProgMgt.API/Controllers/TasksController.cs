@@ -48,7 +48,10 @@ namespace CleanProgMgt.API.Controllers
         public ActionResult<TaskReadDto> GetTaskById(int id)
         {
             var tasksFromService = tasksService.GetTaskById(id);
-
+             if(tasksFromService == null){
+                    return NotFound("Task not found.");
+                }
+                
             return Ok(mapper.Map<TaskReadDto>(tasksFromService));
         }
 
