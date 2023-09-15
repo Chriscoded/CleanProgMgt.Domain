@@ -54,6 +54,10 @@ namespace CleanProgMgt.API.Controllers
         {
             var notificationFromService = notificationsService.GetNotificationById(id);
 
+            if(notificationFromService == null){
+                    return NotFound("Notification not found.");
+                }
+
             return Ok(mapper.Map<NotificationReadDto>(notificationFromService));
         }
 

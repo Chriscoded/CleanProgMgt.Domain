@@ -39,6 +39,9 @@ namespace CleanProgMgt.API.Controllers
         public ActionResult<UserReadDto> GetUserById(int id)
         {
             var userFromService = userService.GetUserById(id);
+            if(userFromService == null){
+                    return NotFound("User not found.");
+                }
 
             return Ok(mapper.Map<UserReadDto>(userFromService));
         }

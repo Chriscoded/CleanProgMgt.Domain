@@ -37,6 +37,9 @@ namespace CleanProgMgt.API.Controllers
             //var due = tasksService.GetTasksDueWithin48Hours();
 
             var tasksFromService = tasksService.GetAllTasks();
+            if(tasksFromService == null){
+                    return NotFound("Task not found.");
+                }
             return Ok(mapper.Map<IEnumerable<TaskReadDto>>(tasksFromService));
         }
 

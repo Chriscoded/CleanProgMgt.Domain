@@ -36,6 +36,10 @@ namespace CleanProgMgt.API.Controllers
         {
             var projectFromService = projectService.GetProjectById(id);
 
+            if(projectFromService == null){
+                    return NotFound("Project not found.");
+                }
+
             return Ok(mapper.Map<ProjectReadDto>(projectFromService));
         }
 
