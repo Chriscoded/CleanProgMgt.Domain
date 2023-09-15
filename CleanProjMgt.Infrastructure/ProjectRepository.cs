@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace CleanProjMgt.Infrastructure
 {
@@ -37,12 +38,16 @@ namespace CleanProjMgt.Infrastructure
 
         public IEnumerable<Project> GetAllProjects()
         {
-            return dbContext.Project;
+            return dbContext.Project
+              .Include(proj => proj.Tasks)
+              .ToList();
         }
 
         public Project GetProjectById(long? id)
         {
-            var data = dbContext.Project.FirstOrDefault(x => x.Id == id);
+            var data = dbContext.Project
+                .Include(proj=> proj.Tasks)
+                .FirstOrDefault(x => x.Id == id);
             if (data == null)
                 return null;
             else return data;

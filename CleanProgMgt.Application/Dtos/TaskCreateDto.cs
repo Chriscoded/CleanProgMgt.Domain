@@ -21,10 +21,10 @@ namespace CleanProgMgt.Application.Dtos
         [Required]
         public Status status { get; set; }
         [Required]
-        public int? ProjectId { get; set; }
+        public int ProjectId { get; set; }
 
         [Required]
-        public int? UserId { get; set; }
+        public int UserId { get; set; }
 
     }
 }

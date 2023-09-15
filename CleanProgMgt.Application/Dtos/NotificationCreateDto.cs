@@ -20,6 +20,6 @@ namespace CleanProgMgt.Application.Dtos
         [Required]
         public NotificationStatus Status { get; set; }
         [Required]
-        public int? UserId { get; set; }
+        public int UserId { get; set; }
     }
 }

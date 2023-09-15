@@ -18,9 +18,9 @@ namespace CleanProgMgt.Application.Dtos
         public DateTime Due_date { get; set; }
         public Priority Priority { get; set; }
         public Status status { get; set; }
-        public int? ProjectId { get; set; }
-        public Project? Project { get; set; }
-        public int? UserId { get; set; }
-        public User? User { get; set; }
+        public int ProjectId { get; set; }
+        public Project Project { get; set; }
+        public int UserId { get; set; }
+        public User User { get; set; }
     }
 }

@@ -40,12 +40,16 @@ namespace CleanProjMgt.Infrastructure
 
         public IEnumerable<Notification> GetAllNotifications()
         {
-            return dbContext.Notification;
+            return dbContext.Notification
+                .Include(not=> not.User)
+                .ToList();
         }
 
         public Notification GetNotificationById(long? id)
         {
-            var data = dbContext.Notification.FirstOrDefault(x => x.Id == id);
+            var data = dbContext.Notification
+                .Include(not=> not.User)
+                .FirstOrDefault(x => x.Id == id);
             if (data == null)
                 return null;
             else return data;

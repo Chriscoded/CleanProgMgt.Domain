@@ -15,7 +15,7 @@ namespace CleanProgMgt.Domain
         public string Name { get; set; }
         [Required, EmailAddress]
         public string Email { get; set; }
-        public ICollection<Tasks>? Tasks { get; set; }
-        public ICollection<Notification>? Notifications { get; set; }
+        public virtual ICollection<Tasks> Tasks { get; set; }
+        public virtual ICollection<Notification>? Notifications { get; set; }
     }
 }

@@ -38,12 +38,19 @@ namespace CleanProjMgt.Infrastructure
 
         public IEnumerable<User> GetAllUsers()
         {
-            return dbContext.Users;
+            return dbContext.Users
+                .Include(user => user.Tasks)
+                .Include(user => user.Notifications)
+                .ToList();
         }
 
         public User GetUserById(long? id)
         {
-            var data = dbContext.Users.FirstOrDefault(x => x.Id == id);
+            var data = dbContext.Users
+                 .Include(user => user.Tasks)
+                 .Include(user => user.Notifications)
+                .FirstOrDefault(x => x.Id == id);
+           
             if (data == null)
                 return null;
             else return data;

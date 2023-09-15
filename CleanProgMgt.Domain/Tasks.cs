@@ -30,12 +30,11 @@ namespace CleanProgMgt.Domain
         [Required]
         public Status status { get; set; }
         [Required]
-        public int ? ProjectId { get; set; }
-        public Project? Project { get; set; }
+        public int  ProjectId { get; set; }
+        public virtual Project Project { get; set; }
         [Required]
-        public int ? UserId { get; set; }
-       
-        public User? User { get; set; }
+        public int UserId { get; set; }
+        public virtual User User { get; set; }
         
     }
 }

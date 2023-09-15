@@ -38,7 +38,11 @@ namespace CleanProjMgt.Infrastructure
         public IEnumerable<Tasks> GetAllTasks()
         {
 
-            return dbContext.Tasks;
+            return dbContext.Tasks
+            .Include(task => task.User)
+            .Include(task => task.Project)
+            .ToList();
+            
             
         }
 
@@ -51,7 +55,10 @@ namespace CleanProjMgt.Infrastructure
 
         public Tasks GetTaskById(long? id)
         {
-            var data = dbContext.Tasks.FirstOrDefault(x => x.Id == id);
+            var data = dbContext.Tasks
+                .Include(task => task.User)
+                .Include(task => task.Project)
+                .FirstOrDefault(x => x.Id == id);
             if (data == null)
                 return null;
             else return data;
@@ -61,7 +68,7 @@ namespace CleanProjMgt.Infrastructure
         {
             //user.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             var taskToUpdate = dbContext.Tasks.Find(id);
-
+            
             if (taskToUpdate == null)
             {
                 // Handle not found error, e.g., throw an exception
@@ -85,7 +92,8 @@ namespace CleanProjMgt.Infrastructure
 
         public Tasks Delete(int id)
         {    
-            var task = dbContext.Tasks.Find(id);
+            var task = dbContext.Tasks.FirstOrDefault(task => task.Id == id);
+
             if (task != null)
             {
                 dbContext.Tasks.Remove(task);
@@ -101,7 +109,10 @@ namespace CleanProjMgt.Infrastructure
             var now = DateTime.Now;
             var dueWithin48Hours = new List<Tasks>();
 
-            List<Tasks> allTasks = dbContext.Tasks.ToList();
+            List<Tasks> allTasks = dbContext.Tasks
+                .Include(task => task.User)
+                .Include(task => task.Project)
+                .ToList();
 
             // Example logic to retrieve tasks due within 48 hours
             foreach (var task in allTasks) // Replace with actual task retrieval logic
@@ -121,6 +132,8 @@ namespace CleanProjMgt.Infrastructure
             // You can interact with your data storage or repository here
 
             return dbContext.Tasks
+                .Include(task => task.User)
+                .Include(task => task.Project)
                 .Where(task => task.status == Status.Completed)
                 .ToList();
         }
@@ -168,6 +181,8 @@ namespace CleanProjMgt.Infrastructure
         public List<Tasks> GetTasksDueBetweenDates(DateTime startDate, DateTime endDate)
         {
              var tasks = dbContext.Tasks
+                .Include(task => task.User)
+                .Include(task => task.Project)
                 .Where(task => task.Due_date >= startDate && task.Due_date <= endDate)
                 .ToList();
 

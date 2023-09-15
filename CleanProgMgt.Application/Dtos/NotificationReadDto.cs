@@ -17,8 +17,8 @@ namespace CleanProgMgt.Application.Dtos
         public string Message { get; set; }
         public DateTime Timestamp { get; set; }
         public NotificationStatus Status { get; set; }
-        public int? UserId { get; set; }
-        public User? User { get; set; }
+        public int UserId { get; set; }
+        public User User { get; set; }
 
     }
 }

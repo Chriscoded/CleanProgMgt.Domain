@@ -17,6 +17,6 @@ namespace CleanProgMgt.Domain
         [Required]
         public string Description { get; set; } = string.Empty;
         [Required]
-        public ICollection<Tasks> ? Tasks { get; set; }
+        public virtual ICollection<Tasks> Tasks { get; set; }
     }
 }

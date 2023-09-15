@@ -15,7 +15,7 @@ namespace CleanProgMgt.Application.Dtos
         public string Name { get; set; }
         [Required]
         public string Email { get; set; }
-        public ICollection<Tasks>? Tasks { get; set; }
-        public ICollection<Notification>? Notifications { get; set; }
+        public ICollection<Tasks> Tasks { get; set; }
+        public ICollection<Notification> Notifications { get; set; }
     }
 }
